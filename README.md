@@ -3,7 +3,7 @@
 
 ![Python](https://img.shields.io/badge/Python-3.x-blue?logo=python)
 ![Scikit-learn](https://img.shields.io/badge/Scikit--learn-Machine_Learning-orange?logo=scikitlearn)
-![Status](https://img.shields.io/badge/Experiment-Completed-success)
+![Experiment](https://img.shields.io/badge/Experiment-Completed-success)
 
 ## AIM
 
@@ -11,13 +11,13 @@ To predict house prices using regression models and compare the performance of d
 
 ## OBJECTIVES
 
-- Load and explore the House Price Dataset.
-- Perform exploratory data analysis and visualize feature distributions.
-- Examine correlations between house features and prices.
+- Load and inspect the House Price Dataset.
+- Perform exploratory data analysis (EDA).
+- Examine relationships between house features and prices.
 - Detect and treat extreme house-price outliers.
-- Divide the dataset into training and testing sets.
+- Split the dataset into training and testing sets.
 - Train and evaluate ten regression models.
-- Compare model performance using RMSE, MAE, and R².
+- Compare models using RMSE, MAE, and R².
 - Visualize predictions, residuals, and feature importance.
 
 ## SOFTWARE REQUIREMENTS
@@ -33,7 +33,9 @@ To predict house prices using regression models and compare the performance of d
 
 ## DATASET DESCRIPTION
 
-The experiment uses a House Price Dataset to predict the continuous numerical value of a house's price.
+The House Price Dataset contains information about residential properties. The objective is to predict the continuous numerical value of a house's price from its characteristics.
+
+![Modern residential house](https://images.squarespace-cdn.com/content/v1/5cc1cfa57d0c917c71c34845/1556647321295-HD0D8JAH17L2Y6JQC5PC/540-Pleasant-New-Exterior-2.jpg)
 
 | Feature | Description |
 |---|---|
@@ -43,9 +45,9 @@ The experiment uses a House Price Dataset to predict the continuous numerical va
 | `distance_to_city(km)` | Distance from the city centre in kilometres |
 | `price` | Target variable representing house price |
 
-### Problem Statement
+## PROBLEM STATEMENT
 
-Develop a machine-learning model that predicts house prices from house characteristics. Train multiple regression algorithms, evaluate their predictions, and identify the better-performing model using standard regression metrics.
+Develop a machine-learning model to predict house prices using house characteristics. Train different regression algorithms, evaluate their prediction performance, and select a better-performing model based on standard regression metrics.
 
 ## THEORY
 
@@ -61,8 +63,8 @@ Regression is a supervised machine-learning technique used to predict continuous
 
 In this experiment:
 
-- **Input features (`X`):** `square_feet`, `num_rooms`, `age`, and `distance_to_city(km)`
-- **Target (`y`):** `price`
+- **Independent variables (`X`):** `square_feet`, `num_rooms`, `age`, and `distance_to_city(km)`
+- **Dependent variable (`y`):** `price`
 
 ### 3. Linear Regression
 
@@ -77,11 +79,13 @@ y = \beta_0 + \beta_1x_1 + \beta_2x_2 + \cdots + \beta_nx_n
 where:
 
 - \(y\) is the predicted house price
-- \(x_1, x_2, \ldots, x_n\) are the input features
+- \(x_1, x_2, \ldots, x_n\) are input features
 - \(\beta_0\) is the intercept
-- \(\beta_1, \beta_2, \ldots, \beta_n\) are the model coefficients
+- \(\beta_1, \beta_2, \ldots, \beta_n\) are model coefficients
 
 The model estimates coefficients that minimize the sum of squared prediction errors.
+
+![House price versus size with a fitted regression line](https://datasciencebook.ca/_main_files/figure-html/08-lm-predict-all-1.png)
 
 ### 4. Regression Models Used
 
@@ -174,28 +178,28 @@ R² measures how well the model explains variation in the target. A higher value
                 └────────────┬─────────────┘
                              ▼
                 ┌──────────────────────────┐
-                │ Inspect and summarize    │
-                │ dataset                  │
+                │ Inspect and summarize   │
+                │ dataset                 │
                 └────────────┬─────────────┘
                              ▼
                 ┌──────────────────────────┐
-                │ Perform exploratory      │
-                │ data analysis            │
+                │ Perform exploratory     │
+                │ data analysis           │
                 └────────────┬─────────────┘
                              ▼
                 ┌──────────────────────────┐
-                │ Detect and treat         │
-                │ price outliers           │
+                │ Detect and treat        │
+                │ price outliers          │
                 └────────────┬─────────────┘
                              ▼
                 ┌──────────────────────────┐
-                │ Separate features (X)    │
-                │ and target (y)           │
+                │ Separate features (X)   │
+                │ and target (y)          │
                 └────────────┬─────────────┘
                              ▼
                 ┌──────────────────────────┐
-                │ Split into training     │
-                │ and testing sets        │
+                │ Split training and      │
+                │ testing data            │
                 └────────────┬─────────────┘
                              ▼
                 ┌──────────────────────────┐
@@ -247,7 +251,6 @@ R² measures how well the model explains variation in the target. A higher value
 # Ex. No. 4a - MACHINE LEARNING MODEL: LINEAR REGRESSION
 
 # Step 1: Import libraries
-import os
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -281,9 +284,6 @@ from sklearn.metrics import (
     mean_absolute_error,
     r2_score
 )
-
-# Create a folder for generated plots
-os.makedirs("images", exist_ok=True)
 
 # Step 2: Load the dataset
 df = pd.read_csv(
@@ -321,7 +321,6 @@ for col in numeric_features:
     sns.histplot(df[col], kde=True, bins=30)
     plt.title(f'Distribution of {col}')
     plt.tight_layout()
-    plt.savefig(f'images/distribution_{col}.png', dpi=300)
     plt.show()
 
 # Correlation heatmap
@@ -334,7 +333,6 @@ sns.heatmap(
 )
 plt.title('Feature Correlation Matrix')
 plt.tight_layout()
-plt.savefig('images/correlation_heatmap.png', dpi=300)
 plt.show()
 
 # Feature versus price scatter plots
@@ -350,7 +348,6 @@ for col in input_features:
     sns.scatterplot(x=df[col], y=df['price'])
     plt.title(f'{col} vs Price')
     plt.tight_layout()
-    plt.savefig(f'images/scatter_{col}.png', dpi=300)
     plt.show()
 
 # Step 5: Outlier detection using box plots
@@ -359,7 +356,6 @@ for col in numeric_features:
     sns.boxplot(x=df[col])
     plt.title(f'Boxplot of {col}')
     plt.tight_layout()
-    plt.savefig(f'images/boxplot_{col}.png', dpi=300)
     plt.show()
 
 # Step 6: Outlier treatment
@@ -518,7 +514,6 @@ results_df = results_df.sort_values(
 print("\nModel comparison:")
 print(results_df.to_string(index=False))
 
-# Save model comparison table
 results_df.to_csv(
     "regression_model_comparison.csv",
     index=False
@@ -533,7 +528,6 @@ sns.barplot(
 )
 plt.title("RMSE Comparison Across Regression Models")
 plt.tight_layout()
-plt.savefig("images/rmse_comparison.png", dpi=300)
 plt.show()
 
 # Step 14: Actual versus predicted plots
@@ -558,7 +552,6 @@ for i, (name, y_pred) in enumerate(models.items()):
     plt.title(name)
 
 plt.tight_layout()
-plt.savefig("images/actual_vs_predicted.png", dpi=300)
 plt.show()
 
 # Step 15: Residual analysis
@@ -574,10 +567,6 @@ for name, y_pred in models.items():
     plt.title(f"{name}: Residual Plot")
 
     plt.tight_layout()
-    plt.savefig(
-        f'images/residual_{name.lower().replace(" ", "_")}.png',
-        dpi=300
-    )
     plt.show()
 
 # Step 16: Feature importance
@@ -591,7 +580,6 @@ sns.barplot(
 )
 plt.title("Random Forest Feature Importance")
 plt.tight_layout()
-plt.savefig("images/random_forest_feature_importance.png", dpi=300)
 plt.show()
 
 # Gradient Boosting feature importance
@@ -602,7 +590,6 @@ sns.barplot(
 )
 plt.title("Gradient Boosting Feature Importance")
 plt.tight_layout()
-plt.savefig("images/gradient_boosting_feature_importance.png", dpi=300)
 plt.show()
 
 # Step 17: Display best-performing model
@@ -631,29 +618,29 @@ The program sorts the comparison table by RMSE and saves it as `regression_model
 
 ### RMSE Comparison
 
-After running the program, the generated graph is saved at:
-
-`images/rmse_comparison.png`
-
-![RMSE comparison](images/rmse_comparison.png)
+The generated graph compares the RMSE values of the baseline and regression models. The model with the lowest RMSE has the smallest root mean squared prediction error on the test set.
 
 ### Actual vs. Predicted Prices
 
 The scatter plots compare actual house prices with model predictions. Points closer to the diagonal reference line indicate more accurate predictions.
 
-![Actual vs predicted](images/actual_vs_predicted.png)
+### Residual Analysis
+
+A residual is the difference between the actual and predicted values:
+
+\[
+\text{Residual} = \text{Actual Price} - \text{Predicted Price}
+\]
+
+Residual plots help identify prediction errors and patterns that may indicate a poor model fit.
 
 ### Feature Importance
 
 Random Forest and Gradient Boosting provide feature-importance estimates that help identify which input features contribute most to their predictions.
 
-![Random Forest feature importance](images/random_forest_feature_importance.png)
-
-![Gradient Boosting feature importance](images/gradient_boosting_feature_importance.png)
-
 ## RESULT
 
-House-price prediction was performed using Linear Regression and nine additional regression models. The models were evaluated and compared using RMSE, MAE, and R². Exploratory data analysis, outlier treatment, feature scaling, prediction visualizations, residual analysis, and feature-importance analysis were also performed.
+House-price prediction was performed using Linear Regression and nine additional regression models. The models were evaluated and compared using RMSE, MAE, and R². Exploratory data analysis, outlier treatment, feature scaling, prediction visualization, residual analysis, and feature-importance analysis were also performed.
 
 The best-performing model is identified by the lowest RMSE in the generated comparison table.
 
@@ -664,3 +651,4 @@ The best-performing model is identified by the lowest RMSE in the generated comp
 3. [NumPy Documentation](https://numpy.org/doc/)
 4. [Matplotlib Documentation](https://matplotlib.org/stable/)
 5. [Seaborn Documentation](https://seaborn.pydata.org/)
+6. [Data Science: A First Introduction — Regression](https://datasciencebook.ca/regression2.html)
